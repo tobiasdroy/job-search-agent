@@ -17,6 +17,9 @@ London on-site or hybrid). Adjust query terms as needed — try a few variations
 
 - **Adzuna** (`config.json` → `adzuna.app_id` / `adzuna.app_key`, country `gb`):
   `GET https://api.adzuna.com/v1/api/jobs/gb/search/{page}?app_id={app_id}&app_key={app_key}&results_per_page=20&what={query}&where=London&content-type=application/json`
+- **Reed** (`config.json` → `reed.api_key`, used as HTTP Basic Auth username with a blank password):
+  `GET https://www.reed.co.uk/api/1.0/search?keywords={query}&locationName=London&resultsToTake=25`
+  One of the largest UK job boards — good primary source alongside Adzuna for London graduate/data roles.
 - **RemoteOK** (no key): `GET https://remoteok.com/api` — filter client-side for relevant tags
   (data, python, analytics, ml) since this is remote-only, treat as a lower-priority supplemental source
   given Tobias's on-site/hybrid preference.
