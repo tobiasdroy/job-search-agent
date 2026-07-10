@@ -1,0 +1,41 @@
+name: Daily Job Search
+
+on:
+  schedule:
+    - cron: "7 7 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run job search
+        env:
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+          REED_API_KEY: ${{ secrets.REED_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_APP_PASSWORD: ${{ secrets.SMTP_APP_PASSWORD }}
+          EMAIL_TO: ${{ secrets.SMTP_USERNAME }}
+        run: python run_job_search.py
+
+      - name: Commit updated seen_jobs.json
+        run: |
+          git config user.name "job-search-bot"
+          git config user.email "actions@github.com"
+          git add seen_jobs.json
+          git diff --staged --quiet || git commit -m "Update seen_jobs.json - $(date -u +%Y-%m-%d)"
+          git push
