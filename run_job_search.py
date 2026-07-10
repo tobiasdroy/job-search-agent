@@ -5,6 +5,7 @@ import os
 import re
 import smtplib
 import sys
+import time
 from datetime import date, datetime
 from email.message import EmailMessage
 from pathlib import Path
@@ -12,8 +13,7 @@ from pathlib import Path
 import requests
 
 BASE_DIR = Path(__file__).resolve().parent
-GEMINI_MODEL = "gemini-3-flash-preview"
-GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
+GEMINI_MODELS = ["gemini-3-flash-preview", "gemini-flash-latest", "gemini-2.0-flash"]
 
 ADZUNA_APP_ID = os.environ["ADZUNA_APP_ID"]
 ADZUNA_APP_KEY = os.environ["ADZUNA_APP_KEY"]
@@ -160,16 +160,31 @@ def save_seen(seen):
 
 
 def call_gemini(prompt):
-    r = requests.post(
-        GEMINI_URL,
-        params={"key": GEMINI_API_KEY},
-        json={"contents": [{"parts": [{"text": prompt}]}]},
-        timeout=60,
-    )
-    r.raise_for_status()
-    data = r.json()
-    parts = data["candidates"][0]["content"]["parts"]
-    return "".join(p.get("text", "") for p in parts)
+    """Try each model in GEMINI_MODELS, retrying transient failures (503/429) with backoff."""
+    last_error = None
+    for model in GEMINI_MODELS:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+        for attempt in range(3):
+            try:
+                r = requests.post(
+                    url,
+                    params={"key": GEMINI_API_KEY},
+                    json={"contents": [{"parts": [{"text": prompt}]}]},
+                    timeout=60,
+                )
+                if r.status_code in (429, 503):
+                    last_error = f"{model}: {r.status_code} {r.text[:200]}"
+                    time.sleep(5 * (attempt + 1))
+                    continue
+                r.raise_for_status()
+                data = r.json()
+                parts = data["candidates"][0]["content"]["parts"]
+                return "".join(p.get("text", "") for p in parts)
+            except requests.RequestException as e:
+                last_error = f"{model}: {e}"
+                time.sleep(5 * (attempt + 1))
+        print(f"Model {model} exhausted retries, trying next model", file=sys.stderr)
+    raise RuntimeError(f"All Gemini models failed. Last error: {last_error}")
 
 
 def build_ranking_prompt(cv, prefs, candidates):
