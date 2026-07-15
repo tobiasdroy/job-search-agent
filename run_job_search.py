@@ -9,6 +9,7 @@ import time
 from datetime import date, datetime
 from email.message import EmailMessage
 from pathlib import Path
+from urllib.parse import urlparse
 
 import requests
 
@@ -148,6 +149,19 @@ def fetch_arbeitnow():
         return []
 
 
+def normalize_url(url):
+    """Collapse a listing URL to a stable dedup key. Adzuna rotates both a
+    tracking query string AND the path shape (/jobs/details/<id> vs
+    /jobs/land/ad/<id>) on every API call for the same underlying job, so
+    stripping the query alone isn't enough — key on domain + numeric job id
+    when the last path segment is one."""
+    base = url.split("?", 1)[0].rstrip("/")
+    last_segment = base.rsplit("/", 1)[-1]
+    if last_segment.isdigit():
+        return f"{urlparse(base).netloc}/{last_segment}"
+    return base
+
+
 def load_seen():
     path = BASE_DIR / "seen_jobs.json"
     if path.exists():
@@ -256,16 +270,16 @@ def main():
     cv = (BASE_DIR / "CV.md").read_text()
     prefs = (BASE_DIR / "preferences.md").read_text()
     seen = load_seen()
-    seen_urls = {s["url"] for s in seen}
+    seen_urls = {normalize_url(s["url"]) for s in seen}
 
     all_jobs = fetch_adzuna() + fetch_reed() + fetch_remoteok() + fetch_arbeitnow()
     print(f"Fetched {len(all_jobs)} total listings")
 
-    candidates = [j for j in all_jobs if j["url"] and j["url"] not in seen_urls]
-    # de-dupe within this run by URL
+    candidates = [j for j in all_jobs if j["url"] and normalize_url(j["url"]) not in seen_urls]
+    # de-dupe within this run by normalized URL
     dedup = {}
     for j in candidates:
-        dedup[j["url"]] = j
+        dedup[normalize_url(j["url"])] = j
     candidates = list(dedup.values())
     print(f"{len(candidates)} new candidates after filtering seen jobs")
 
@@ -285,7 +299,7 @@ def main():
     today_str = date.today().isoformat()
     for j in candidates:
         seen.append({
-            "url": j["url"],
+            "url": normalize_url(j["url"]),
             "title": j["title"],
             "company": j["company"],
             "first_seen": today_str,
