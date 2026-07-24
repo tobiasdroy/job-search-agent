@@ -29,7 +29,6 @@ QUERIES = [
     "graduate data scientist",
     "machine learning graduate",
     "junior data analyst",
-    "data science trainee",
 ]
 
 
@@ -147,6 +146,17 @@ def fetch_arbeitnow():
     except requests.RequestException as e:
         print(f"Arbeitnow failed: {e}", file=sys.stderr)
         return []
+
+
+BLOCKLISTED_COMPANIES = {"consula"}
+
+
+def normalize_company_title(title, company):
+    """Key on cleaned company+title so a repost under a rotated job ID/URL
+    (e.g. Consula Group re-listing the same role daily) still counts as seen."""
+    def clean(s):
+        return re.sub(r"\s+", " ", (s or "").strip().lower())
+    return f"{clean(company)}|{clean(title)}"
 
 
 def normalize_url(url):
@@ -271,16 +281,33 @@ def main():
     prefs = (BASE_DIR / "preferences.md").read_text()
     seen = load_seen()
     seen_urls = {normalize_url(s["url"]) for s in seen}
+    seen_keys = {normalize_company_title(s.get("title", ""), s.get("company", "")) for s in seen}
 
     all_jobs = fetch_adzuna() + fetch_reed() + fetch_remoteok() + fetch_arbeitnow()
     print(f"Fetched {len(all_jobs)} total listings")
 
-    candidates = [j for j in all_jobs if j["url"] and normalize_url(j["url"]) not in seen_urls]
-    # de-dupe within this run by normalized URL
+    def is_new(j):
+        if not j["url"]:
+            return False
+        if normalize_url(j["url"]) in seen_urls:
+            return False
+        if normalize_company_title(j["title"], j["company"]) in seen_keys:
+            return False
+        company_clean = (j["company"] or "").strip().lower()
+        if any(b in company_clean for b in BLOCKLISTED_COMPANIES):
+            return False
+        return True
+
+    candidates = [j for j in all_jobs if is_new(j)]
+    # de-dupe within this run by normalized URL and by company+title
     dedup = {}
     for j in candidates:
         dedup[normalize_url(j["url"])] = j
     candidates = list(dedup.values())
+    dedup_by_key = {}
+    for j in candidates:
+        dedup_by_key[normalize_company_title(j["title"], j["company"])] = j
+    candidates = list(dedup_by_key.values())
     print(f"{len(candidates)} new candidates after filtering seen jobs")
 
     picks = []
