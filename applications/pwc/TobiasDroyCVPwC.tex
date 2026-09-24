@@ -1,0 +1,152 @@
+\documentclass[11pt, a4paper]{article}
+
+% ── Packages ──────────────────────────────────────────────────────────────────
+\usepackage[a4paper, margin=0.8cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+% ── Colours ───────────────────────────────────────────────────────────────────
+\definecolor{navy}{HTML}{1a2e4a}
+\definecolor{mygray}{HTML}{333333}
+
+% ── No page numbers ───────────────────────────────────────────────────────────
+\pagestyle{empty}
+
+% ── Global spacing ────────────────────────────────────────────────────────────
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+\setlength{\baselineskip}{12pt}
+
+% ── Section heading ───────────────────────────────────────────────────────────
+\newcommand{\cvsection}[1]{%
+  \vspace{7pt}%
+  {\small\bfseries\color{navy}\MakeUppercase{#1}}\par%
+  \nopagebreak\vspace{-8pt}%
+  {\color{navy}\rule{\linewidth}{0.4pt}}\par%
+  \vspace{3pt}%
+}
+
+% ── Job header: \jobheader{Title}{Org}{Date} ──────────────────────────────────
+\newcommand{\jobheader}[3]{%
+  \vspace{4pt}%
+  \noindent\textbf{#1}%
+  \ifx\relax#2\relax\else{\color{mygray}\ \ |\ \ #2}\fi%
+  \hfill{\color{mygray}\small\textit{#3}}\par%
+  \vspace{1pt}%
+}
+
+% ── Bullet list style ─────────────────────────────────────────────────────────
+\setlist[itemize]{
+  leftmargin=1.2em,
+  itemsep=0pt,
+  topsep=1pt,
+  parsep=0pt,
+  partopsep=0pt,
+  label=\textbullet
+}
+
+% ──────────────────────────────────────────────────────────────────────────────
+\begin{document}
+
+% ── Name & contact ────────────────────────────────────────────────────────────
+{\Huge\bfseries\color{navy} Tobias Droy}\par
+\vspace{3pt}
+{\color{mygray}\small
+  \href{mailto:tobias.droy@gmail.com}{tobias.droy@gmail.com}
+  \ \ |\ \
+  07872 651735
+  \ \ |\ \
+  London, UK
+  \ \ |\ \
+  github.com/tobiasdroy
+}\par
+\vspace{5pt}
+
+% ── Personal summary ──────────────────────────────────────────────────────────
+{\small Physics graduate (MPhys 2:1, University of Manchester) with hands-on experience in AI, designing and training
+neural networks with City Football Group, and in data science and analytics using Python, SQL and Databricks.
+Track record of building tools that improve how teams work, alongside client-facing roles.}\par
+
+% ── Experience ────────────────────────────────────────────────────────────────
+\cvsection{Experience}
+
+\jobheader{Digital Operations Manager}{Vital Flow Health \textit{(Early-stage healthcare startup)}}{Jul 2025 -- Aug 2026}
+\begin{itemize}
+  \item Engineered an internal tool which automated report generation for clients, significantly improving customer experience while reducing manual work for our team by 60\%
+  \item Developed a web-based application to allow users to interpret 94 different metrics from their blood test results, designing the underlying data models, UI design, and API integration from scratch
+  \item Delivered Salesforce administration for the whole organisation, and designed and built 2 company websites
+  \item Acted as the primary on-site liaison between the clinical team and corporate clients, managing appointment logistics and building client relationships
+\end{itemize}
+
+\jobheader{Analyst}{The Distilled Group \textit{(Early-stage corporate finance/strategic advisory firm)}}{Sep 2025 -- Mar 2026}
+\begin{itemize}
+  \item Conducted market and investor research to identify and prioritise 150+ funding partners for
+        clean energy and sustainability projects
+  \item Authored investment teasers and marketing materials, and structured content for the company's website launch
+\end{itemize}
+
+% ── Projects ──────────────────────────────────────────────────────────────────
+\cvsection{Technical Projects \& Research}
+
+\jobheader{Masters Project -- AI in Football}{City Football Group (CFG)}{Sep 2024 -- Jun 2025}
+\begin{itemize}
+  \item Designed and trained a neural network inspired by U-Net to predict defending players' positions to within an accuracy of 3\,m, using only the positions of attacking players as input
+  \item Trained on confidential Premier League match data using PyTorch \& Databricks, with CFG's data team
+  \item Presented findings to CFG's data science team at the Etihad Stadium; project awarded 79\%
+  \item Managed a two-person collaboration, resolving technical and interpersonal challenges to deliver on time
+\end{itemize}
+
+\jobheader{SQL Analytics Portfolio -- Chinook Database}{github.com/tobiasdroy/sql-portfolio-1, sql-portfolio-2}{}
+\begin{itemize}
+    \item Wrote 11 SQL queries answering business questions using multi-table joins, CTEs and window functions
+    \item Built a retention analysis that ranked top customers per country and labelled each by purchase frequency and time since last order, separating loyal buyers from lapsing ones
+\end{itemize}
+
+\jobheader{Uniqualiser -- Personalised EQ profiles}{uniqualiser.com}{}
+\begin{itemize}
+    \item Built a client-side Web Audio tool that measures personal hearing response and generates a corrective EQ profile
+\end{itemize}
+
+% ── Education ─────────────────────────────────────────────────────────────────
+\cvsection{Education}
+
+\jobheader{MPhys Physics (2:1)}{University of Manchester}{Sep 2021 -- Jun 2025}
+\begin{itemize}
+  \item Built Python and C++ programs to analyse experimental physics data, receiving first-class grades across all assessed coding projects
+  \item Simulated physical phenomena including radioactive decay and neutron scattering, requiring statistical modelling, numerical methods, and object-oriented programming
+\end{itemize}
+
+\jobheader{Hampton School}{}{Sep 2014 -- Jun 2021}
+\begin{itemize}
+  \item \textbf{Pre-U:} Maths [D1], Further Maths [D1], Physics [D1], Chemistry [D1], \textbf{GCSE:} 9 A*s, 1 A \\
+        \hspace{1em}{\color{mygray}\small(D1 is equivalent to a high A* at A-level)}
+\end{itemize}
+
+% ── Skills ────────────────────────────────────────────────────────────────────
+\cvsection{Skills}
+
+\vspace{1pt}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+  \textbf{Languages}  & Python (primary), SQL, C++ \\[2pt]
+  \textbf{AI / Data}  & Neural networks (PyTorch), Databricks, data analysis and visualisation, statistical modelling \\[2pt]
+  \textbf{Tools}      & Salesforce, web development (HTML/CSS), data protection compliance (GDPR) \\
+\end{tabularx}
+
+% ── Interests ─────────────────────────────────────────────────────────────────
+\cvsection{Interests \& Activities}
+
+\vspace{1pt}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+  \textbf{Choral singing} & Performed at the Royal Albert Hall and St Paul's Cathedral;
+                            represented the UK as one of 13 elite singers invited to perform
+                            at the Chinese University of Hong Kong's 60th anniversary
+                            celebrations \\
+  \textbf{Music}          & Performed guitar, jazz, and electric bass in both live and recorded rock and jazz bands \\
+\end{tabularx}
+
+\end{document}
