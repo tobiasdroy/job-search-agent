@@ -9,3 +9,5 @@
 - Keep the CV to one page unless I say otherwise.
 - When done, list what you changed, and list any keywords from the job description
   you left out because my experience doesn't support them.
+- Save the job descriptin as jd.txt in the same folder
+- Commit when done
