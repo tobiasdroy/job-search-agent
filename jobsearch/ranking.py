@@ -8,7 +8,8 @@ import requests
 
 from .config import GEMINI_API_KEY
 
-GEMINI_MODELS = ["gemini-3-flash-preview", "gemini-flash-latest", "gemini-2.0-flash"]
+# stable, generally-available models last, so an overloaded preview model still falls back to something
+GEMINI_MODELS = ["gemini-3-flash-preview", "gemini-flash-latest", "gemini-3.5-flash", "gemini-flash-lite-latest"]
 MAX_PICKS = 10
 
 
@@ -23,7 +24,7 @@ def call_gemini(prompt):
             try:
                 r = requests.post(
                     url,
-                    params={"key": GEMINI_API_KEY},
+                    headers={"x-goog-api-key": GEMINI_API_KEY},  # a header, so the key never appears in error URLs
                     json={"contents": [{"parts": [{"text": prompt}]}]},
                     timeout=60,
                 )
@@ -31,6 +32,10 @@ def call_gemini(prompt):
                     last_error = f"{model}: {r.status_code} {r.text[:200]}"
                     time.sleep(5 * (attempt + 1))
                     continue
+                if 400 <= r.status_code < 500:
+                    # e.g. 404 for a retired model: retrying won't help, move to the next one
+                    last_error = f"{model}: {r.status_code} {r.text[:200]}"
+                    break
                 r.raise_for_status()
                 data = r.json()
                 parts = data["candidates"][0]["content"]["parts"]
