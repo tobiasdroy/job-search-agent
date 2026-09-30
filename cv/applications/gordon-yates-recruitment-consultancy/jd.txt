@@ -1,0 +1,18 @@
+Junior Data Analyst
+
+We are currently recruiting for a Junior Data Analyst - for 3 months 
+
+WHO WILL YOU BE WORKING FOR?
+Our client is an established non-profit organisation. An Education based client; located in the wonderfully vibrant city of Westminster/Victoria.
+The role will be 1 day in the office (Thursday) and 4 from home. 
+  
+WHAT WILL YOU BE DOING?
+The successful candidate will support a range of analytical activities, including data extraction, transformation and validation, preparing datasets for analysis, conducting statistical and ad hoc analysis, and producing data visualisations and reports to support our research and data programme.
+The role will involve working primarily with SQL and Python to manipulate and analyse complex datasets, develop automated data processes, and communicate findings to both technical and non-technical audiences.
+  
+ABOUT YOU
+High attention to detail including a high standard of accuracy when processing data
+Strong Excel skills – 
+Attention to detail and a methodical approach to both routine and more complex tasks, including a willingness to follow procedures precisely
+Experience of SQL and Python
+Ideally Graduate level- Data Science; of computer science background.
