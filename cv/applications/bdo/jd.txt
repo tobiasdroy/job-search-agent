@@ -1,0 +1,82 @@
+BDO – Audit Graduate Programme, Technology Risk Assurance (Data or Controls), London
+Start: Monday 20 September 2027 | Salary: £33,000 | Closing date: Sunday 15 November 2026
+
+A bit about us
+
+Big responsibility. Personal support. That's Beyond the Ordinary.
+
+Want to get stuck into client work, build your confidence and start shaping your career from day one? Welcome to the Audit Graduate Programme at BDO.
+
+The programme starts on Monday, 20th September 2027, for an organisation-wide induction (you need to be able to attend).
+
+A bit about the Technology Risk Assurance team
+
+Audit at BDO gives you the chance to take on meaningful work early in your career. We're the only UK mid-market organisation with more than £1bn in turnover and 8,000 people. That means you get the scale and breadth of a major professional services business, while working with clients where your contribution can make a real difference.
+
+We have roles within our Data Analytics and IT controls teams.
+
+What does the TRA controls team do?
+
+The Technology Risk Assurance Controls team helps the audit team identify and assess risks associated with the client's finance applications. We focus on IT systems and processes related to access, change management and automated interfaces between systems. When we identify weaknesses in the client IT environment, we provide recommendations to management to help them strengthen processes and controls. We also work closely with the financial audit team to explain the risks arising from IT that impact our audit approach and may require additional audit testing of financial statement integrity.
+
+Key responsibilities include:
+-IT General Controls testing over the financial applications
+-Cyber Security Risk Assessments
+-Database and Operating Systems controls testing
+-Assessment of automated controls operated by the business
+
+What does the TRA Data team do?
+
+The TRA Data team uses data analytics to support audits by examining entire populations of financial data, rather than relying solely on traditional sample-based testing. By combining technology, data analysis and audit expertise, we help provide efficient, high-quality assurance across a range of financial statement areas.
+
+Key responsibilities include:
+-Exploring and analysing data to help understand how businesses operate and identify potential risks using tools such as Alteryx, Databricks, Python, SQL, SAS, amongst others
+-Checking and validating financial information to support the audit process
+-Working closely with colleagues across audit teams to solve problems and deliver successful outcomes
+-Presenting insights in a clear and engaging way to help teams focus on key areas of risk, including building visualisations and dashboards
+
+You'll be trusted with lots of responsibility, but you won't be expected to figure everything out by yourself. You'll work alongside experienced colleagues, managers, directors and partners who are there to answer questions, share what they know and help you develop.
+
+It's a chance to learn by doing, get exposure to clients and build your confidence as your responsibility grows. Big responsibility, with the scale of BDO behind you and personal support around you.
+
+And a bit about the programme
+
+Over three years, you'll build hands-on experience while working towards recognised professional qualifications including CFAB, ICAEW PowerBI Certification, CISA, and Data Camp courses.
+
+Alongside your studies, you'll develop your technical and commercial skills through real Audit work. You could gain experience across different clients, sectors and specialist areas, while learning from people across the organisation.
+
+As you develop, so will the responsibility you're trusted with. Our graduates have talked about joining client calls, leading meetings and working directly with senior colleagues earlier than they expected. You'll have support around you as you take those next steps and build towards where you want your career to go. When you successfully complete the programme and pass the exams, you'll be fully qualified as an accountant, and guaranteed a permanent role with us.
+
+As for you
+
+You're curious, resilient and adaptable. You're ready to learn, ask questions and take on more responsibility as you grow.
+
+Bring your problem-solving, analytical skills and critical thinking. We'll give you opportunities to put them into practice, alongside the support to keep developing.
+
+Join us in our London team in either Data or Controls.
+
+One thing to note: you'll need to live within a commutable distance of the office. Relocation support is not provided, so please consider this carefully before applying. Time together in person matters – whether that's in the office or with clients. It gives you more opportunities to learn from your team, build relationships and get the most from working together.
+
+Is it for you? To apply, you'll need:
+- A minimum 2:2 degree in any discipline (obtained or predicted)
+- Three A-levels (or equivalent) at A*-C (excluding General Studies and Extended Projects), or four Scottish Highers or Advanced Highers at grade A-B (or equivalent, for example BTEC Extended Diploma). Please note: we do not use UCAS points. You'll be asked to provide evidence if you're successful in securing an offer
+- GCSEs at grade 4 and above in Maths and English, or Scottish National 5 grade A-C. You'll also need to provide evidence if successful
+- Commitment to balance study and professional work
+- The right to work in the UK (we are unable to provide visa sponsorship for these roles as they do not meet the current minimum salary requirements for sponsorship set by the Home Office. Applications from candidates who have their own legal right to work within the UK must cover the duration of their 3-year training contract and employment)
+
+How the interview process will go
+1. Online application form.
+2. Online assessments.
+3. Video interview.
+4. Virtual assessment centre.
+5. Final interview in person.
+
+We'll keep you updated at each stage and share tips to help you prepare. And just so you know: we don't use AI in any part of our candidate screening process. Every application is reviewed by a real person.
+
+What you get in return
+
+Our benefits are designed to support your life in and outside of work, with options including additional leave, gym membership and employee discounts, alongside pension, health and wellbeing support and a range of protection benefits.
+
+Salary: £33,000 per annum.
+
+Closing date for applications is Sunday 15th November 2026.
