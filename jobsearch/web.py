@@ -11,7 +11,7 @@ from fastapi.templating import Jinja2Templates
 
 from . import db, pipeline, tailor
 from .config import BASE_DIR, CV_DIR
-from .fetchers import fetch_reed_description
+from .fetchers import QUERIES_PATH, fetch_reed_description
 from .ranking import build_distil_prompt, call_gemini, strip_fences
 
 STALE_AFTER = timedelta(hours=20)
@@ -172,8 +172,16 @@ def cv_file(path: str):
 
 @app.get("/settings", response_class=HTMLResponse)
 def settings(request: Request):
-    return render(request, "settings.html", email_enabled=db.email_enabled(),
-                  feedback_count=len(db.recent_feedback()), proposal=None)
+    return render(request, "settings.html", proposal=None, **_settings_ctx())
+
+
+def _settings_ctx():
+    return dict(
+        email_enabled=db.email_enabled(),
+        feedback_count=len(db.recent_feedback()),
+        preferences=PREFS_PATH.read_text(),
+        queries=QUERIES_PATH.read_text() if QUERIES_PATH.exists() else "",
+    )
 
 
 @app.post("/settings/email")
@@ -189,11 +197,16 @@ def settings_distil(request: Request):
     diff = "\n".join(difflib.unified_diff(
         current.splitlines(), proposal.splitlines(), "preferences.md", "proposed", lineterm=""
     ))
-    return render(request, "settings.html", email_enabled=db.email_enabled(),
-                  feedback_count=len(db.recent_feedback()), proposal=proposal, diff=diff)
+    return render(request, "settings.html", proposal=proposal, diff=diff, **_settings_ctx())
 
 
 @app.post("/settings/preferences")
 def settings_preferences(content: str = Form(...)):
     PREFS_PATH.write_text(content.replace("\r\n", "\n"))
     return RedirectResponse("/settings?saved=1", status_code=303)
+
+
+@app.post("/settings/queries")
+def settings_queries(content: str = Form(...)):
+    QUERIES_PATH.write_text(content.replace("\r\n", "\n").rstrip() + "\n")
+    return RedirectResponse("/settings?saved=queries", status_code=303)

@@ -6,19 +6,20 @@ from urllib.parse import urlparse
 
 import requests
 
-from .config import ADZUNA_APP_ID, ADZUNA_APP_KEY, REED_API_KEY
+from .config import ADZUNA_APP_ID, ADZUNA_APP_KEY, BASE_DIR, REED_API_KEY
 
-QUERIES = [
-    "graduate data analyst",
-    "graduate data scientist",
-    "machine learning graduate",
-    "junior data analyst",
-]
+QUERIES_PATH = BASE_DIR / "queries.txt"
+
+
+def load_queries():
+    """Search terms sent to Adzuna and Reed, one per line in queries.txt (editable in Settings)."""
+    lines = QUERIES_PATH.read_text().splitlines() if QUERIES_PATH.exists() else []
+    return [l.strip() for l in lines if l.strip() and not l.strip().startswith("#")]
 
 
 def fetch_adzuna():
     results = []
-    for q in QUERIES:
+    for q in load_queries():
         try:
             r = requests.get(
                 "https://api.adzuna.com/v1/api/jobs/gb/search/1",
@@ -51,7 +52,7 @@ def fetch_adzuna():
 
 def fetch_reed():
     results = []
-    for q in QUERIES:
+    for q in load_queries():
         try:
             r = requests.get(
                 "https://www.reed.co.uk/api/1.0/search",

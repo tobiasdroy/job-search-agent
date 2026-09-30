@@ -30,13 +30,14 @@ The app fetches automatically on startup if the last fetch is more than 20 hours
 | --- | --- |
 | `jobsearch/web.py` | FastAPI app (routes); templates in `jobsearch/templates/` (Jinja2 + htmx) |
 | `jobsearch/pipeline.py` | `run_daily()`: fetch → dedupe → rank → store → optional email |
-| `jobsearch/fetchers.py` | Job-board API clients, `QUERIES`, dedup key normalisation |
+| `jobsearch/fetchers.py` | Job-board API clients, dedup key normalisation |
+| `queries.txt` | Search terms sent to Adzuna / Reed (editable in Settings) |
 | `jobsearch/ranking.py` | Gemini client and prompts (ranking + feedback distillation) |
 | `jobsearch/tailor.py` | Runs `claude -p` in `cv/` as a background job |
 | `jobsearch/db.py` | SQLite schema and queries (`jobs.db`, gitignored) |
 | `run_job_search.py` | CLI: one fetch/rank run without the web app |
-| `cv/` | The CV personaliser (imported from `~/cv` via `git subtree`, history kept) |
-| `CV.md`, `preferences.md` | Used for ranking, read fresh on every run |
+| `cv/` | The CV personaliser; `cv/cv-base.tex` is the master CV, used for both ranking and tailoring (imported from `~/cv` via `git subtree`, history kept) |
+| `preferences.md` | What I'm looking for; used for ranking, read fresh on every run (editable in Settings) |
 | `config.json` | Local credentials (gitignored) |
 
 ## Setup
@@ -67,8 +68,8 @@ RemoteOK and Arbeitnow need no key.
 
 ## Customising
 
-- **Change what gets recommended**: leave feedback on jobs. It goes straight into the next ranking prompt. To make it permanent, use Settings → "Distil feedback into preferences", which proposes an edit to `preferences.md` for you to review. `CV.md` and `preferences.md` can also be edited directly.
-- **Widen the search**: add search terms to `QUERIES` in `jobsearch/fetchers.py`.
+- **Change what gets recommended**: leave feedback on jobs. It goes straight into the next ranking prompt. To make it permanent, use Settings → "Distil feedback into preferences", which proposes an edit to `preferences.md` for you to review. `preferences.md` can also be edited directly.
+- **Widen the search**: Settings → Search terms (`queries.txt`). Preferences can be edited in Settings too.
 - **Suppress a noisy employer**: add a lowercase substring to `BLOCKLISTED_COMPANIES`.
 - **Change how CVs are tailored**: edit `cv/CLAUDE.md`.
 - **Email digest**: toggle it in Settings (off by default).

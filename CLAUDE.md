@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A personal job-search web app for Tobias Droy, run locally on his Mac. It fetches UK graduate/early-career data & ML listings from several job-board APIs and ranks them against `CV.md`, `preferences.md` and his past feedback using Gemini. The results are shown in a FastAPI + htmx app, where each job gets a feedback box and a "Tailor CV" button. Tailoring runs headless Claude Code in `cv/` on his Claude subscription. There is no build step and no test suite.
+A personal job-search web app for Tobias Droy, run locally on his Mac. It fetches UK graduate/early-career data & ML listings from several job-board APIs and ranks them against the master CV (`cv/cv-base.tex`), `preferences.md` and his past feedback using Gemini. The results are shown in a FastAPI + htmx app, where each job gets a feedback box and a "Tailor CV" button. Tailoring runs headless Claude Code in `cv/` on his Claude subscription. There is no build step and no test suite.
 
 ## Commands
 
@@ -25,4 +25,4 @@ Credentials come from env vars, falling back to `config.json` (gitignored, never
 
 ## Editing behavior without touching code
 
-`CV.md`, `preferences.md` and in-app feedback are the levers for changing recommendations. Prefer them over hardcoded filtering. Role *title* shouldn't gate matches; ranking follows day-to-day work content, which is why filtering happens in the Gemini prompt rather than in keyword rules. `QUERIES` in `jobsearch/fetchers.py` widens the Adzuna/Reed search surface.
+The master CV `cv/cv-base.tex` (also the base for tailoring — there is no separate ranking CV), `preferences.md` and in-app feedback are the levers for changing recommendations. Prefer them over hardcoded filtering. Role *title* shouldn't gate matches; ranking follows day-to-day work content, which is why filtering happens in the Gemini prompt rather than in keyword rules. `queries.txt` (one term per line, editable in Settings alongside `preferences.md`) sets the Adzuna/Reed search surface; a role type missing there is never fetched.

@@ -1,0 +1,10 @@
+# Search terms sent to Adzuna and Reed (London), one per line. Lines starting with # are ignored.
+# Each term costs two API calls per refresh. RemoteOK and Arbeitnow don't use these.
+graduate data analyst
+graduate data scientist
+machine learning graduate
+junior data analyst
+graduate technology audit
+graduate technology risk
+graduate technology consultant
+graduate IT audit

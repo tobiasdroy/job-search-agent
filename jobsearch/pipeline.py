@@ -1,10 +1,11 @@
 """Daily run: fetch → dedupe against the DB → rank with Gemini → store → optional email."""
+import re
 import sys
 import threading
 from datetime import date
 
 from . import db
-from .config import BASE_DIR
+from .config import BASE_DIR, CV_DIR
 from .emailer import send_email
 from .fetchers import (
     BLOCKLISTED_COMPANIES, fetch_adzuna, fetch_arbeitnow, fetch_reed, fetch_remoteok,
@@ -13,6 +14,14 @@ from .fetchers import (
 from .ranking import MAX_PICKS, build_ranking_prompt, call_gemini, parse_gemini_json
 
 _run_lock = threading.Lock()
+
+
+def load_master_cv():
+    """The CV used for ranking: the body of cv/cv-base.tex (the master), minus LaTeX comments.
+    Content hidden with \\iffalse is kept — it's still true and helps matching."""
+    tex = (CV_DIR / "cv-base.tex").read_text()
+    body = tex.split("\\begin{document}", 1)[-1].split("\\end{document}", 1)[0]
+    return re.sub(r"(?m)(?<!\\)%.*$", "", body).strip()
 
 
 def run_daily():
@@ -33,7 +42,7 @@ def run_daily():
 
 def _run():
     db.init_db()
-    cv = (BASE_DIR / "CV.md").read_text()
+    cv = load_master_cv()
     prefs = (BASE_DIR / "preferences.md").read_text()
     seen_urls, seen_keys = db.seen_keys()
 
