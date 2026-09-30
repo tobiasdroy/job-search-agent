@@ -2,6 +2,8 @@
 - cv-base.tex is the master. Never edit it.
 - For each job, write the tailored version to applications/<company>/TobiasDroyCV<Company>.tex
   (folder in lowercase, filename using the company's own capitalisation, e.g. applications/pwc/TobiasDroyCVPwC.tex).
+  If a folder for that company already exists, use applications/<company>-<role>/ instead
+  (the job search app passes the exact folder to use).
 - Only reword and reorder things that are already true in the base CV.
   Never invent experience, skills, tools or achievements.
 - Use the job description's exact wording for keywords wherever it's truthful.

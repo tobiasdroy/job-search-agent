@@ -2,3 +2,7 @@ config.json
 .DS_Store
 TobiasDroyCV.pdf
 __pycache__/
+jobs.db
+.venv/
+cv/**/*.aux
+cv/**/*.log

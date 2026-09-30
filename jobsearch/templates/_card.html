@@ -1,0 +1,40 @@
+<div class="card {% if j.status in ('dismissed', 'seen') %}dim{% endif %}" id="job-{{ j.id }}">
+  <div class="row">
+    <div class="title">{% if j.url %}<a href="{{ j.url }}" target="_blank" rel="noopener">{{ j.title }}</a>{% else %}{{ j.title }}{% endif %}</div>
+    {% if j.score is not none %}<span class="badge score">{{ j.score }}</span>{% endif %}
+    <span class="badge">{{ j.status }}</span>
+  </div>
+  <div class="meta">
+    {{ j.company }}{% if j.location %} · {{ j.location }}{% endif %}
+    {% if j.salary_min or j.salary_max %} · £{{ "{:,.0f}".format(j.salary_min or 0) }}–{{ "{:,.0f}".format(j.salary_max or 0) }}{% endif %}
+    {% if j.source %} · {{ j.source }}{% endif %}
+  </div>
+  {% if j.why %}<p>{{ j.why }}</p>{% endif %}
+  {% if j.caveat %}<p class="caveat">⚠ {{ j.caveat }}</p>{% endif %}
+  {% if j.description %}<details><summary>Listing text</summary><div class="desc">{{ j.description }}</div></details>{% endif %}
+
+  <div class="actions">
+    {% for s, label in [("shortlisted", "Shortlist"), ("applied", "Applied"), ("dismissed", "Dismiss")] %}
+      {% if j.status != s %}
+      <button hx-post="/jobs/{{ j.id }}/status" hx-vals='{"status": "{{ s }}"}' hx-target="#job-{{ j.id }}" hx-swap="outerHTML">{{ label }}</button>
+      {% endif %}
+    {% endfor %}
+    <span class="spacer"></span>
+    {% if j.last_tailor_id %}<a href="/tailor/{{ j.last_tailor_id }}">Last CV run</a>{% endif %}
+    <a class="btn primary" href="/jobs/{{ j.id }}/tailor">Tailor CV</a>
+  </div>
+
+  <form class="fb" hx-post="/jobs/{{ j.id }}/feedback" hx-target="#job-{{ j.id }}" hx-swap="outerHTML">
+    <textarea name="text" rows="2" placeholder="What's wrong (or right) with this one? Used to improve future recommendations."></textarea>
+    <div class="actions" style="margin-top:6px">
+      <button type="submit">Save feedback</button>
+      <button type="submit" name="dismiss" value="1">Save &amp; dismiss</button>
+      {% if j.feedback_count %}
+        <span class="spacer"></span>
+        <details hx-get="/jobs/{{ j.id }}/feedback" hx-trigger="toggle once" hx-target="find .fb-list">
+          <summary>{{ j.feedback_count }} previous note{{ "s" if j.feedback_count != 1 }}</summary><div class="fb-list"></div>
+        </details>
+      {% endif %}
+    </div>
+  </form>
+</div>

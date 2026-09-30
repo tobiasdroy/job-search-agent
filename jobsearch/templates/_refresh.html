@@ -1,0 +1,10 @@
+<div id="refresh" class="toolbar meta"
+     {% if status == "running" %}hx-get="/refresh/status" hx-trigger="every 3s" hx-swap="outerHTML"{% endif %}>
+  {% if status == "running" %}
+    Fetching and ranking new jobs…
+  {% else %}
+    <span>Last fetched {{ (last_fetch or "never")|replace("T", " ") }}{% if status %} · {{ status }}{% endif %}</span>
+    <button hx-post="/refresh" hx-target="#refresh" hx-swap="outerHTML">Refresh now</button>
+    {% if last_fetch and request.url.path == "/refresh/status" %}<a href="/">Reload list</a>{% endif %}
+  {% endif %}
+</div>

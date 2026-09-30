@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Settings</h1>
+{% if request.query_params.get("saved") %}<p class="status-done">preferences.md saved.</p>{% endif %}
+<form method="post" action="/settings/email" class="card">
+  <strong>Email digest</strong>
+  <p class="meta">Send the top 3 picks by email after each refresh.</p>
+  <label style="display:flex; gap:8px; align-items:center; color:var(--text)">
+    <input type="checkbox" name="enabled" value="1" {% if email_enabled %}checked{% endif %} onchange="this.form.submit()"> Enabled
+  </label>
+</form>
+<div class="card">
+  <strong>Distil feedback into preferences</strong>
+  <p class="meta">Recent feedback is already fed into every ranking. This turns all {{ feedback_count }} notes into lasting rules in preferences.md. You review the change before it's saved.</p>
+  {% if not proposal %}
+  <form method="post" action="/settings/distil"><button {% if not feedback_count %}disabled{% endif %}>Propose update</button></form>
+  {% else %}
+  <div class="diff">{{ diff or "No changes proposed." }}</div>
+  <form method="post" action="/settings/preferences">
+    <label>Proposed preferences.md (editable)</label>
+    <textarea name="content" rows="20">{{ proposal }}</textarea>
+    <div class="actions"><button class="primary" type="submit">Save preferences.md</button><a class="btn" href="/settings">Discard</a></div>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

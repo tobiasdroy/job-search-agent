@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>CV for {{ run.company }}{% if run.role %} — {{ run.role }}{% endif %}</h1>
+{% include "_run_status.html" %}
+<details class="card"><summary>Job description</summary><div class="desc">{{ run.jd_text }}</div></details>
+{% endblock %}

@@ -1,0 +1,11 @@
+<div class="card" id="run-status"
+     {% if run.status in ("queued", "running") %}hx-get="/tailor/{{ run.id }}/status" hx-trigger="every 3s" hx-swap="outerHTML"{% endif %}>
+  <div class="row">
+    <strong class="status-{{ run.status }}">{{ run.status|capitalize }}</strong>
+    <span class="meta">{{ run.folder }} · started {{ (run.started_at or "")|replace("T", " ") }}{% if run.finished_at %} · finished {{ run.finished_at|replace("T", " ") }}{% endif %}</span>
+  </div>
+  {% if run.status in ("queued", "running") %}<p class="meta">Claude is tailoring the CV, compiling and checking it. This page updates automatically.</p>{% endif %}
+  {% if run.pdf_path %}<div class="actions"><a class="btn primary" href="/cv-files/{{ run.pdf_path }}" target="_blank">Open PDF</a></div>{% endif %}
+  {% if run.summary %}<div class="pre" style="margin-top:12px">{{ run.summary }}</div>{% endif %}
+  {% if run.status == "failed" and run.log %}<details open><summary>Log</summary><div class="desc">{{ run.log }}</div></details>{% endif %}
+</div>

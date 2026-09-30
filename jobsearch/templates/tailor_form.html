@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Tailor CV{% if job %} — {{ job.title }}{% endif %}</h1>
+<form method="post" action="/tailor" class="card">
+  {% if job %}<input type="hidden" name="job_id" value="{{ job.id }}">{% endif %}
+  <label>Company (as the company writes it — used in the filename)</label>
+  <input type="text" name="company" value="{{ company }}" required>
+  <label>Role</label>
+  <input type="text" name="role" value="{{ role }}">
+  <label>Listing URL (optional)</label>
+  <input type="url" name="url" value="{{ url }}">
+  <label>Job description</label>
+  {% if not jd_is_full %}
+    <p class="caveat">Job boards often truncate descriptions. For a better CV, open the <a href="{{ url }}" target="_blank" rel="noopener">listing</a> and paste the full text here.</p>
+  {% endif %}
+  <textarea name="jd" rows="18" required>{{ jd }}</textarea>
+  <div class="actions"><button class="primary" type="submit">Tailor CV with Claude</button>
+    <span class="meta">Runs Claude Code in cv/ on your subscription. Takes a few minutes.</span></div>
+</form>
+{% endblock %}

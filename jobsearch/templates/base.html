@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Job Search{% endblock %}</title>
+<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js"></script>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #fff; --text: #1d2330; --muted: #6b7280; --border: #e2e5ea;
+    --accent: #2f5bd3; --accent-soft: #e8eefc; --good: #1f8a4c; --warn: #b45309; --bad: #b42318;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #13161c; --panel: #1b1f27; --text: #e6e8ec; --muted: #9aa2b1; --border: #2c323d;
+      --accent: #7c9cf5; --accent-soft: #232c45; --good: #4ade80; --warn: #fbbf24; --bad: #f87171;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  header { background: var(--panel); border-bottom: 1px solid var(--border); }
+  header .inner, main { max-width: 900px; margin: 0 auto; padding: 0 16px; }
+  header .inner { display: flex; gap: 20px; align-items: center; height: 56px; }
+  header .brand { font-weight: 700; }
+  header nav a { color: var(--muted); text-decoration: none; margin-right: 16px; }
+  header nav a:hover, header nav a.on { color: var(--text); }
+  main { padding-top: 24px; padding-bottom: 60px; }
+  a { color: var(--accent); }
+  h1 { font-size: 22px; margin: 0 0 16px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 28px 0 10px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; margin-bottom: 12px; }
+  .card.dim { opacity: .6; }
+  .row { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .title { font-weight: 600; font-size: 16px; flex: 1; min-width: 200px; }
+  .title a { color: var(--text); text-decoration: none; }
+  .title a:hover { text-decoration: underline; }
+  .meta { color: var(--muted); font-size: 13px; }
+  .badge { font-size: 12px; padding: 2px 8px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+  .score { font-weight: 700; }
+  .caveat { color: var(--warn); font-size: 14px; }
+  p { margin: 8px 0; }
+  button, .btn { font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 6px; cursor: pointer;
+                 border: 1px solid var(--border); background: var(--panel); color: var(--text); text-decoration: none; display: inline-block; }
+  button:hover, .btn:hover { border-color: var(--accent); }
+  .primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+  .actions .spacer { flex: 1; }
+  textarea, input[type=text], input[type=url] { width: 100%; font: inherit; padding: 8px 10px; border-radius: 6px;
+             border: 1px solid var(--border); background: var(--bg); color: var(--text); }
+  details summary { cursor: pointer; color: var(--muted); font-size: 13px; }
+  .desc { white-space: pre-wrap; font-size: 13px; color: var(--muted); max-height: 300px; overflow: auto; }
+  .fb { margin-top: 10px; }
+  .fb-item { font-size: 13px; border-left: 3px solid var(--border); padding: 2px 10px; margin: 6px 0; }
+  .filters a { margin-right: 6px; }
+  .filters a.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+  .pre { white-space: pre-wrap; font-size: 14px; }
+  .diff { white-space: pre; font: 12px/1.4 ui-monospace, Menlo, monospace; overflow-x: auto; background: var(--bg); padding: 10px; border-radius: 6px; }
+  label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 4px; }
+  .status-done { color: var(--good); } .status-failed { color: var(--bad); } .status-running, .status-queued { color: var(--warn); }
+  table { width: 100%; border-collapse: collapse; }
+  td, th { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); font-size: 14px; }
+</style>
+</head>
+<body>
+<header><div class="inner">
+  <span class="brand">Job Search</span>
+  <nav>
+    <a href="/" {% if request.url.path == '/' %}class="on"{% endif %}>Jobs</a>
+    <a href="/tailor/new" {% if request.url.path == '/tailor/new' %}class="on"{% endif %}>Tailor CV</a>
+    <a href="/tailor" {% if request.url.path == '/tailor' %}class="on"{% endif %}>CV runs</a>
+    <a href="/settings" {% if request.url.path == '/settings' %}class="on"{% endif %}>Settings</a>
+  </nav>
+</div></header>
+<main>{% block content %}{% endblock %}</main>
+</body>
+</html>

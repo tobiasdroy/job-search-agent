@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>CV runs</h1>
+<table>
+  <tr><th>Company</th><th>Role</th><th>Status</th><th>Started</th><th></th></tr>
+  {% for r in runs %}
+  <tr>
+    <td><a href="/tailor/{{ r.id }}">{{ r.company }}</a></td><td>{{ r.role }}</td>
+    <td class="status-{{ r.status }}">{{ r.status }}</td><td class="meta">{{ (r.started_at or "")|replace("T", " ") }}</td>
+    <td>{% if r.pdf_path %}<a href="/cv-files/{{ r.pdf_path }}" target="_blank">PDF</a>{% endif %}</td>
+  </tr>
+  {% else %}<tr><td colspan="5" class="meta">No runs yet.</td></tr>{% endfor %}
+</table>
+{% endblock %}

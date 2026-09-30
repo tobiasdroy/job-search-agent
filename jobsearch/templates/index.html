@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="toolbar">
+  <div class="filters">
+    {% for f in filters %}<a class="btn {% if f == filter %}on{% endif %}" href="/?filter={{ f }}">{{ f|capitalize }}</a>{% endfor %}
+  </div>
+</div>
+{% set status = fetch_status %}
+{% include "_refresh.html" %}
+{% for day, jobs in groups.items() %}
+  <h2>{{ day }}</h2>
+  {% for j in jobs %}{% include "_card.html" %}{% endfor %}
+{% else %}
+  <p class="meta">Nothing here yet.</p>
+{% endfor %}
+{% endblock %}
