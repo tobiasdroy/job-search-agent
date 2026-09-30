@@ -11,6 +11,8 @@ from .config import GEMINI_API_KEY
 # stable, generally-available models last, so an overloaded preview model still falls back to something
 GEMINI_MODELS = ["gemini-3-flash-preview", "gemini-flash-latest", "gemini-3.5-flash", "gemini-flash-lite-latest"]
 MAX_PICKS = 10
+# gemini-3-flash-preview "thinks" before answering: ~2 min for a full day of listings
+TIMEOUT_SECONDS = 240
 
 
 def call_gemini(prompt):
@@ -26,22 +28,30 @@ def call_gemini(prompt):
                     url,
                     headers={"x-goog-api-key": GEMINI_API_KEY},  # a header, so the key never appears in error URLs
                     json={"contents": [{"parts": [{"text": prompt}]}]},
-                    timeout=60,
+                    timeout=TIMEOUT_SECONDS,
                 )
                 if r.status_code in (429, 503):
                     last_error = f"{model}: {r.status_code} {r.text[:200]}"
+                    print(f"{model} attempt {attempt + 1}: HTTP {r.status_code}", file=sys.stderr)
                     time.sleep(5 * (attempt + 1))
                     continue
                 if 400 <= r.status_code < 500:
                     # e.g. 404 for a retired model: retrying won't help, move to the next one
                     last_error = f"{model}: {r.status_code} {r.text[:200]}"
+                    print(f"{model}: HTTP {r.status_code}, skipping model", file=sys.stderr)
                     break
                 r.raise_for_status()
                 data = r.json()
                 parts = data["candidates"][0]["content"]["parts"]
                 return "".join(p.get("text", "") for p in parts)
+            except requests.Timeout:
+                # a timeout after 4 minutes won't go better on retry; try the next model
+                last_error = f"{model}: timed out after {TIMEOUT_SECONDS}s"
+                print(last_error, file=sys.stderr)
+                break
             except requests.RequestException as e:
                 last_error = f"{model}: {e}"
+                print(f"{model} attempt {attempt + 1}: {e}", file=sys.stderr)
                 time.sleep(5 * (attempt + 1))
         print(f"Model {model} exhausted retries, trying next model", file=sys.stderr)
     raise RuntimeError(f"All Gemini models failed. Last error: {last_error}")
